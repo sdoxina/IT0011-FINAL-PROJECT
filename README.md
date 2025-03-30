@@ -2,9 +2,7 @@
 
 ## Title: Skincare Shop Management System
 
-Objectives: Skincare Management System
-
-The program will provide a user-friendly interface for managing and purchasing skincare products. It will have two main user roles:
+Objectives: The program will provide a user-friendly interface for managing and purchasing skincare products. It will have two main user roles:
 
 1. Customers:
 
@@ -30,7 +28,7 @@ The system will feature a well-structured GUI with a grid layout for ease of nav
 
 2. Oxina, Shane D. (202311026)
 
-3. Piscasio, Jan Ivan Nesta G.(202312393)
+3. Piscasio, Jan Ivan Nesta G. (202312393)
 
 4. Tañajura, Amilia Danielle S. (202311460)
 
