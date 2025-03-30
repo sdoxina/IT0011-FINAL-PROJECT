@@ -17,7 +17,7 @@ class AdminAuth:
         self.password_entry.grid(row=2, column=1)
 
         tk.Button(root, text="Login", command=self.authenticate).grid(row=3, column=1, pady=10)
-        tk.Button(root, text="Back", command=self.success_callback).grid(row=4, column=1, pady=10)
+        tk.Button(root, text="Back", command=self.go_back).grid(row=4, column=1, pady=10)
 
     def authenticate(self):
         username = self.username_entry.get()
@@ -28,3 +28,12 @@ class AdminAuth:
             self.success_callback()
         else:
             messagebox.showerror("Login Failed", "Invalid credentials!")
+
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
+    def go_back(self):
+        self.clear_window()  # Clears the current content
+        from main import MainApp  # Import MainApp to call its method properly
+        MainApp(self.root).show_main_menu()  # Show the main menu again
+
