@@ -38,4 +38,4 @@ The system will feature a well-structured GUI with a grid layout for ease of nav
 
 | Title | Purpose | Link |
 |-|-|-|
-| Stock Management System (python, tkinter, mysql, phpmyadmin) | Serves as a reference for integrating Python and Tkinter with MySQL and phpMyAdmin for database management. | [Watch on YouTube](https://www.youtube.com/playlist?list=PLy9yK0YJ0nQZzdYQUf73ahFNOeadmWCrt) |
+| Source Code | Coffee Shop Management System using Python Tkinter | Café Management System | Serves as a reference for order receipt functionality. | [Watch on YouTube](https://youtu.be/pBoeFAapQx8?si=iF-EjixSYlKdCL5A) |
