@@ -14,7 +14,7 @@ The program will provide a user-friendly interface for managing and purchasing s
 
 - Receive a printed receipt of their order.
 
-Admins:
+2. Admins:
 
 - Perform full CRUD (Create, Read, Update, Delete) operations on products.
 
