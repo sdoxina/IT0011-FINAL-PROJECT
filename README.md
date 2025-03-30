@@ -1,6 +1,6 @@
 # Skincare Shop Management System
 
-## <p align="center">🔹 Developed for IT0011 Final Project 🔹</p>
+<p align="center">🔹 Developed for IT0011 Final Project 🔹</p>
 
 ### Objectives: 
 The program will provide a user-friendly interface for managing and purchasing skincare products. It will have two main user roles:
