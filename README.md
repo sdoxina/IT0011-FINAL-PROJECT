@@ -2,7 +2,8 @@
 
 ## Title: Skincare Shop Management System
 
-Objectives: The program will provide a user-friendly interface for managing and purchasing skincare products. It will have two main user roles:
+### Objectives: 
+The program will provide a user-friendly interface for managing and purchasing skincare products. It will have two main user roles:
 
 1. Customers:
 
@@ -20,7 +21,7 @@ Objectives: The program will provide a user-friendly interface for managing and 
 
 - Generate a summary report displaying total orders, sales, and other relevant statistics.
 
-The system will feature a well-structured GUI with a grid layout for ease of navigation and usability. File handling will be used for data persistence to store product details, customer orders, and reports.
+The system will feature a well-structured GUI with a grid layout for ease of navigation and usability. JSON file handling will be used for data persistence to store product details, customer orders, and reports.
 
 ## Group Members:
 
