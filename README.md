@@ -38,4 +38,4 @@ The system will feature a well-structured GUI with a grid layout for ease of nav
 
 | Title | Purpose | Link |
 |-|-|-|
-| Source Code | Coffee Shop Management System using Python Tkinter | Café Management System | Serves as a reference for order receipt functionality. | [Watch on YouTube](https://youtu.be/pBoeFAapQx8?si=iF-EjixSYlKdCL5A) |
+| Source Code | Coffee Shop Management System using Python Tkinter \| Café Management System | Serves as a reference for order receipt functionality. | [Watch on YouTube](https://youtu.be/pBoeFAapQx8?si=iF-EjixSYlKdCL5A) |
