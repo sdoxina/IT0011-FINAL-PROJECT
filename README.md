@@ -8,7 +8,7 @@ The program will provide a user-friendly interface for managing and purchasing s
 
 1. Customers:
 
-- Browse available skincare products with details (e.g., name, price, description).
+- Browse available skincare products with details (e.g., name, price, description, quantity).
 
 - Place orders by selecting products and providing their name.
 
