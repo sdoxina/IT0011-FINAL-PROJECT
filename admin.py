@@ -5,12 +5,10 @@ from data_handler import load_products, save_products, load_orders
 class AdminApp:
     def __init__(self, root, back_callback):
         self.root = root
-        self.back_callback = back_callback
-        self.show_admin_menu()
+        self.back_callback = lambda: self.go_back(back_callback)
 
-    def clear_window(self):
-        for widget in self.root.winfo_children():
-            widget.destroy()
+        self.clear_window()
+        self.show_admin_menu()
 
     def show_admin_menu(self):
         self.clear_window()
@@ -65,3 +63,11 @@ class AdminApp:
 
     def manage_products(self):
         messagebox.showinfo("Manage Products", "Feature not yet implemented")
+
+    def go_back(self, back_callback):
+        self.clear_window()
+        back_callback()
+
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
