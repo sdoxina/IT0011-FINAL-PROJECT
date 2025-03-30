@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from data_handler import load_products, save_products, load_orders
+from manage_products import ManageProductsApp
 
 class AdminApp:
     def __init__(self, root, back_callback):
@@ -54,7 +55,7 @@ class AdminApp:
 
 
     def manage_products(self):
-        messagebox.showinfo("Manage Products", "Feature not yet implemented")
+        ManageProductsApp(self.root, self.show_admin_menu)
 
     def go_back(self, back_callback):
         self.clear_window()
