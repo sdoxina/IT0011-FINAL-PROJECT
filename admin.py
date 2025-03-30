@@ -6,56 +6,62 @@ class AdminApp:
     def __init__(self, root, back_callback):
         self.root = root
         self.back_callback = back_callback
+        self.show_admin_menu()
 
-        tk.Label(root, text="Admin Panel", font=("Arial", 14)).grid(row=0, column=1, pady=10)
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
 
-        tk.Button(root, text="View Orders", command=self.view_orders).grid(row=1, column=1, pady=5)
-        tk.Button(root, text="Manage Products", command=self.manage_products).grid(row=2, column=1, pady=5)
-        tk.Button(root, text="Back", command=self.back_callback).grid(row=3, column=1, pady=10)
+    def show_admin_menu(self):
+        self.clear_window()
+        tk.Label(self.root, text="Admin Panel", font=("Arial", 14)).grid(row=0, column=1, pady=10)
+
+        tk.Button(self.root, text="View Orders", command=self.view_orders).grid(row=1, column=1, pady=5)
+        tk.Button(self.root, text="Manage Products", command=self.manage_products).grid(row=2, column=1, pady=5)
+        tk.Button(self.root, text="Generate Report", command=self.generate_report).grid(row=3, column=1, pady=5)
+        tk.Button(self.root, text="Back", command=self.back_callback).grid(row=4, column=1, pady=10)
 
     def view_orders(self):
         orders = load_orders()
-        orders_str = "\n".join([f"{product}: {qty}" for product, qty in orders])
-        messagebox.showinfo("Orders", orders_str if orders_str else "No orders yet!")
+        if not orders:
+            messagebox.showinfo("Orders", "No orders yet!")
+            return
+
+        self.clear_window()
+        tk.Label(self.root, text="Customer Orders", font=("Arial", 14, "bold")).grid(row=0, column=1, pady=10)
+
+        # Table Headers
+        tk.Label(self.root, text="Customer", font=("Arial", 12, "bold")).grid(row=1, column=0, padx=10, pady=5)
+        tk.Label(self.root, text="Product", font=("Arial", 12, "bold")).grid(row=1, column=1, padx=10, pady=5)
+        tk.Label(self.root, text="Quantity", font=("Arial", 12, "bold")).grid(row=1, column=2, padx=10, pady=5)
+
+        # Group orders by customer
+        order_dict = {}
+        for order in orders:
+            parts = order.strip().split(",")
+            if len(parts) == 3:
+                customer_name, product, qty = parts
+                if customer_name not in order_dict:
+                    order_dict[customer_name] = []
+                order_dict[customer_name].append((product, qty))
+
+        row_count = 2
+        for customer, items in order_dict.items():
+            tk.Label(self.root, text=customer, font=("Arial", 11, "bold")).grid(row=row_count, column=0, padx=10, pady=2, sticky="w")
+            for product, qty in items:
+                tk.Label(self.root, text=product).grid(row=row_count, column=1, padx=10, pady=2)
+                tk.Label(self.root, text=qty).grid(row=row_count, column=2, padx=10, pady=2)
+                row_count += 1
+            row_count += 1  # Space between customers
+
+        tk.Button(self.root, text="Back", command=self.show_admin_menu).grid(row=row_count, column=1, pady=10)
+
+    def generate_report(self):
+        orders = load_orders()
+        total_orders = len(orders)
+        total_sales = sum(int(parts[2]) for order in orders if (parts := order.strip().split(",")) and len(parts) == 3)
+
+        messagebox.showinfo("Report", f"Total Orders: {total_orders}\nTotal Sales: {total_sales}")
 
     def manage_products(self):
-        self.manage_win = tk.Toplevel(self.root)
-        self.manage_win.title("Manage Products")
-        self.manage_win.geometry("500x300")
-
-        self.products = load_products()
-        row_count = 0
-
-        for product, price in self.products:
-            tk.Label(self.manage_win, text=f"{product} - ${price}").grid(row=row_count, column=0, padx=10)
-            tk.Button(self.manage_win, text="Delete", command=lambda p=product: self.delete_product(p)).grid(row=row_count, column=1)
-            row_count += 1
-
-        tk.Label(self.manage_win, text="New Product:").grid(row=row_count, column=0)
-        self.new_product = tk.Entry(self.manage_win)
-        self.new_product.grid(row=row_count, column=1)
-
-        tk.Label(self.manage_win, text="Price:").grid(row=row_count + 1, column=0)
-        self.new_price = tk.Entry(self.manage_win)
-        self.new_price.grid(row=row_count + 1, column=1)
-
-        tk.Button(self.manage_win, text="Add Product", command=self.add_product).grid(row=row_count + 2, column=1, pady=10)
-
-    def delete_product(self, product):
-        self.products = [p for p in self.products if p[0] != product]
-        save_products(self.products)
-        messagebox.showinfo("Success", f"{product} deleted.")
-        self.manage_win.destroy()
-        self.manage_products()
-
-    def add_product(self):
-        product = self.new_product.get()
-        try:
-            price = float(self.new_price.get())
-            self.products.append((product, price))
-            save_products(self.products)
-            messagebox.showinfo("Success", f"{product} added.")
-            self.manage_win.destroy()
-            self.manage_products()
-        except ValueError:
-            messagebox.showerror("Error", "Invalid price!")
+        messagebox.showinfo("Manage Products", "Feature not yet implemented")

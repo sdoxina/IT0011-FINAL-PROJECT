@@ -1,0 +1,11 @@
+Shane D. Oxina,Oil Cleanser,1
+Shane D. Oxina,Foam Cleanser,1
+Shane D. Oxina,Brightening Serum,1
+Marie Gonzales,Oil Cleanser,1
+Marie Gonzales,Moisturizer,1
+Marie Gonzales,Face Mask,1
+Leila Sarte,Spots Serum,1
+Leila Sarte,Moisturizer,1
+Shazlyn Iraya,Oil Cleanser,1
+Shazlyn Iraya,Foam Cleanser,1
+Shazlyn Iraya,Moisturizer,1
