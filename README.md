@@ -2,7 +2,27 @@
 
 ## Title: Skincare Shop Management System
 
-Objectives: To create a program that allows users to manage or shop skincare products effortlessly. Customers can view available skincare products and place an order. Admins can add, delete, or modify the products, and keep track of customer orders and information.
+Objectives: Skincare Management System
+
+The program will provide a user-friendly interface for managing and purchasing skincare products. It will have two main user roles:
+
+1. Customers:
+
+- Browse available skincare products with details (e.g., name, price, description).
+
+- Place orders by selecting products and providing their name.
+
+- Receive a printed receipt of their order.
+
+Admins:
+
+- Perform full CRUD (Create, Read, Update, Delete) operations on products.
+
+- View and manage customer orders.
+
+- Generate a summary report displaying total orders, sales, and other relevant statistics.
+
+The system will feature a well-structured GUI with a grid layout for ease of navigation and usability. File handling will be used for data persistence to store product details, customer orders, and reports.
 
 ## Group Members:
 
