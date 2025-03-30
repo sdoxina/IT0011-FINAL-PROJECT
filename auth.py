@@ -33,7 +33,6 @@ class AdminAuth:
         for widget in self.root.winfo_children():
             widget.destroy()
     def go_back(self):
-        self.clear_window()  # Clears the current content
-        from main import MainApp  # Import MainApp to call its method properly
+        self.clear_window()
+        from main import MainApp
         MainApp(self.root).show_main_menu()  # Show the main menu again
-
