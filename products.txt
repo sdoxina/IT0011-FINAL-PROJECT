@@ -1,8 +1,0 @@
-Oil Cleanser,449,10
-Foam Cleanser,525,8
-Brightening Serum,800,5
-Spots Serum,470,12
-Moisturizer,290,15
-Face Mask,160,20
-Retinol,549,7
-Toner,349,10

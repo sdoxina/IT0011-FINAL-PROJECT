@@ -1,40 +1,40 @@
-PRODUCTS_FILE = "products.txt"
-ORDERS_FILE = "orders.txt"
+import json
+
+PRODUCTS_FILE = "products.json"
+ORDERS_FILE = "orders.json"
 
 def load_products():
     try:
         with open(PRODUCTS_FILE, "r") as file:
-            products = []
-            for line in file:
-                parts = line.strip().split(",")
-                if len(parts) == 2:  # If stock value is missing, set default stock to 10
-                    product, price = parts
-                    stock = "10"
-                elif len(parts) == 3:
-                    product, price, stock = parts
-                else:
-                    continue  # Ignore malformed lines
-                products.append((product, float(price), int(stock)))
-            return products
-    except FileNotFoundError:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
         return []
 
 def save_products(products):
     with open(PRODUCTS_FILE, "w") as file:
-        for product, price, stock in products:
-            file.write(f"{product},{price},{stock}\n")
+        json.dump(products, file, indent=4)
 
 def load_orders():
-    """Load orders from file and return as a formatted list."""
     try:
         with open(ORDERS_FILE, "r") as file:
-            orders = [line.strip() for line in file.readlines()]
-        return orders
-    except FileNotFoundError:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
         return []
 
 def save_orders(name, order):
-    """Save orders in a structured format."""
-    with open(ORDERS_FILE, "a") as file:
-        for product, qty in order.items():
-            file.write(f"{name},{product},{qty}\n")
+    orders = load_orders()
+
+    if not isinstance(orders, dict):
+        orders = {}
+
+    if name not in orders:
+        orders[name] = {}
+
+    for product, qty in order.items():
+        if product in orders[name]:
+            orders[name][product] += qty
+        else:
+            orders[name][product] = qty
+
+    with open(ORDERS_FILE, "w") as file:
+        json.dump(orders, file, indent=4)

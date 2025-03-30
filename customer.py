@@ -22,12 +22,13 @@ class CustomerApp:
         self.quantities = {}
 
         row_count = 2
-        for product, price, stock in self.products:
+        for product in self.products:
+            name, price, stock = product["name"], product["price"], product["stock"]
             var = tk.IntVar(value=0)
-            self.checkbuttons[product] = var
+            self.checkbuttons[name] = var
 
             # Checkbox for product selection
-            check = tk.Checkbutton(root, text=product, variable=var, command=lambda p=product: self.toggle_quantity(p))
+            check = tk.Checkbutton(root, text=name, variable=var, command=lambda p=name: self.toggle_quantity(p))
             check.grid(row=row_count, column=0, padx=10, sticky="w")
 
             # Label for price
@@ -39,15 +40,16 @@ class CustomerApp:
             qty_label.grid(row=row_count, column=2)
 
             # Minus (-) and Plus (+) buttons
-            minus_button = tk.Button(root, text="-", state="disabled", command=lambda p=product, l=qty_label: self.adjust_quantity(p, l, -1))
+            minus_button = tk.Button(root, text="-", state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
             minus_button.grid(row=row_count, column=3)
 
-            plus_button = tk.Button(root, text="+", state="disabled", command=lambda p=product, l=qty_label: self.adjust_quantity(p, l, 1))
+            plus_button = tk.Button(root, text="+", state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
             plus_button.grid(row=row_count, column=4)
 
-            self.quantities[product] = {"label": qty_label, "minus": minus_button, "plus": plus_button}
+            self.quantities[name] = {"label": qty_label, "minus": minus_button, "plus": plus_button}
 
             row_count += 1
+
 
         # Checkout & Back Buttons
         tk.Button(root, text="Checkout", command=self.checkout).grid(row=row_count, column=1, pady=10)
