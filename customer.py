@@ -89,7 +89,7 @@ class CustomerApp:
 
 # Centering Checkout and Back buttons
         button_frame = tk.Frame(self.scroll_frame, bg="#FFC0CB")
-        button_frame.grid(row=row_count, column=1, columnspan=2, pady=10, sticky="nsew")
+        button_frame.grid(row=row_count, column=1, columnspan=3, pady=10, sticky="nsew")
 
 # Configure columns to allow spacing
         button_frame.grid_columnconfigure(0, weight=1)  # Left side (Back button)
