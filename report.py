@@ -7,14 +7,23 @@ def generate_report(orders, products):
     total_revenue = 0
     product_sales = {}
 
-    # Convert products list to dictionary for fast lookup
-    product_prices = {p["name"]: p["price"] for p in products} if isinstance(products, list) else products
+    # Convert product list/dictionary to proper format
+    if isinstance(products, list):
+        product_prices = {p["name"]: p["price"] for p in products}
+    elif isinstance(products, dict): 
+        product_prices = {name: data["price"] for name, data in products.items()}
+    else:
+        product_prices = {}
 
     for customer, items in orders.items():
         order_total = 0
 
         for product, qty in items.items():
-            price = product_prices.get(product, 0)  # Fetch price safely
+            if product not in product_prices:
+                print(f"Warning: Product '{product}' not found in product_prices dictionary.")
+                continue  # Skip this product if not found
+            
+            price = product_prices[product]
             amount = qty * price
             order_total += amount
             total_orders += qty  # Count total products sold
