@@ -17,13 +17,16 @@ class CustomerApp:
         self.poppins_font = ("Poppins", 12)
         self.poppins_bold = ("Poppins", 14, "bold")
         
+        container = tk.Frame(root, bg="#FFC0CB")
+        container.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
         # Title Label
-        tk.Label(root, text="Available Skincare Products", font=("Poppins", 18, "bold"), fg="#4CAF50", bg="#FFC0CB").grid(row=0, column=1, pady=10)
+        tk.Label(container, text="Available Skincare Products", font=("Poppins", 18, "bold"), fg="#4CAF50", bg="#FFC0CB").grid(row=0, column=1, pady=10)
 
         # Headers
-        tk.Label(root, text="Product", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=0, padx=10)
-        tk.Label(root, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
-        tk.Label(root, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
+        tk.Label(container, text="Product", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=0, padx=10)
+        tk.Label(container, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
+        tk.Label(container, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
 
         self.products = load_products()
         self.cart = {}
@@ -36,19 +39,19 @@ class CustomerApp:
             var = tk.IntVar(value=0)
             self.checkbuttons[name] = var
 
-            check = tk.Checkbutton(root, text=name, variable=var, font=self.poppins_font, bg="#FFC0CB", command=lambda p=name: self.toggle_quantity(p))
+            check = tk.Checkbutton(container, text=name, variable=var, font=self.poppins_font, bg="#FFC0CB", command=lambda p=name: self.toggle_quantity(p))
             check.grid(row=row_count, column=0, padx=10, sticky="w")
 
-            price_label = tk.Label(root, text=f"PHP {price}", font=self.poppins_font, bg="#FFC0CB")
+            price_label = tk.Label(container, text=f"PHP {price}", font=self.poppins_font, bg="#FFC0CB")
             price_label.grid(row=row_count, column=1)
 
-            qty_label = tk.Label(root, text="0", font=self.poppins_font, bg="#FFC0CB")
+            qty_label = tk.Label(container, text="0", font=self.poppins_font, bg="#FFC0CB")
             qty_label.grid(row=row_count, column=2)
 
-            minus_button = tk.Button(root, text="-", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
+            minus_button = tk.Button(container, text="-", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
             minus_button.grid(row=row_count, column=3)
 
-            plus_button = tk.Button(root, text="+", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
+            plus_button = tk.Button(container, text="+", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
             plus_button.grid(row=row_count, column=4)
 
             self.quantities[name] = {"label": qty_label, "minus": minus_button, "plus": plus_button}
@@ -56,8 +59,8 @@ class CustomerApp:
             row_count += 1
 
         # Buttons
-        tk.Button(root, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout).grid(row=row_count, column=1, pady=10)
-        tk.Button(root, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
+        tk.Button(container, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout).grid(row=row_count, column=1, pady=10)
+        tk.Button(container, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
 
     def toggle_quantity(self, product):
         if self.checkbuttons[product].get():
