@@ -2,37 +2,42 @@ import tkinter as tk
 from tkinter import messagebox
 from data_handler import load_products, save_products
 
+# Class for managing products in the application
 class ManageProductsApp:
     def __init__(self, root, back_callback):
         self.root = root
-        self.root.geometry("580x720")  # Set window size wider
+        self.root.geometry("580x720")
         self.back_callback = back_callback
         self.clear_window()
         self.show_product_management()
 
+    # Function to display the product management UI
     def show_product_management(self):
         self.clear_window()
         tk.Label(self.root, text="Manage Products", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=1, pady=10)
 
+        # Column headers
         tk.Label(self.root, text="Name", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=1, column=0, padx=10)
         tk.Label(self.root, text="Price", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=1, column=1, padx=10)
         tk.Label(self.root, text="Stock", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=1, column=2, padx=10)
 
         self.products = load_products()
-        self.product_widgets = {}  
+        self.product_widgets = {}  # Dictionary to store product widgets
 
         row_count = 2
         for product in self.products:
             self.display_product(product, row_count)
             row_count += 1
 
+        # Buttons for adding a new product and going back
         tk.Button(self.root, text="Add Product", command=lambda: self.add_product(row_count), font=("Poppins", 12)).grid(row=row_count, column=1, pady=10)
         tk.Button(self.root, text="Back", command=self.back_callback, font=("Poppins", 12)).grid(row=row_count + 1, column=1, pady=10)
 
+    # Function to display individual product details
     def display_product(self, product, row):
         name, price, stock = product["name"], product["price"], product["stock"]
 
-        # Labels
+        # Display product details using labels
         name_label = tk.Label(self.root, text=name, font=("Poppins", 12))
         price_label = tk.Label(self.root, text=f"PHP {price}", font=("Poppins", 12))
         stock_label = tk.Label(self.root, text=str(stock), font=("Poppins", 12))
@@ -41,7 +46,7 @@ class ManageProductsApp:
         price_label.grid(row=row, column=1)
         stock_label.grid(row=row, column=2)
 
-        # Entry fields
+        # Entry fields for editing product details
         name_entry = tk.Entry(self.root, width=15, font=("Poppins", 12))
         price_entry = tk.Entry(self.root, width=15, font=("Poppins", 12))
         stock_entry = tk.Entry(self.root, width=15, font=("Poppins", 12))
@@ -58,7 +63,7 @@ class ManageProductsApp:
         price_entry.grid_remove()
         stock_entry.grid_remove()
 
-        # Buttons
+        # Buttons for editing, saving, canceling, and deleting a product
         edit_btn = tk.Button(self.root, text="Edit", command=lambda: self.toggle_edit(
             product, name_entry, price_entry, stock_entry, 
             name_label, price_label, stock_label, edit_btn, save_btn, cancel_btn
@@ -98,6 +103,7 @@ class ManageProductsApp:
             "cancel_button": cancel_btn
         }
 
+    # Function to toggle edit mode for a product
     def toggle_edit(self, product, name_entry, price_entry, stock_entry, 
                 name_label, price_label, stock_label, edit_button, save_button, cancel_button):
         name_label.grid_remove()
@@ -112,7 +118,7 @@ class ManageProductsApp:
         save_button.grid()
         cancel_button.grid()
 
-
+    # Function to save edited product details
     def save_changes(self, product, name_entry, price_entry, stock_entry, 
                  name_label, price_label, stock_label, edit_button, save_button, cancel_button):
         try:
@@ -236,6 +242,7 @@ class ManageProductsApp:
         save_btn.grid_remove()
         cancel_btn.grid_remove()
 
+    # Function to delete a product
     def delete_product(self, product):
         confirm = messagebox.askyesno("Delete Product", f"Are you sure you want to delete {product['name']}?")
         if confirm:
