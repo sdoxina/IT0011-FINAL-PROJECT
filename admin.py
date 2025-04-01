@@ -1,8 +1,5 @@
-# admin.py
-
 import tkinter as tk
 from tkinter import messagebox
-from PIL import Image, ImageTk
 from data_handler import load_products, load_orders
 from manage_products import ManageProductsApp
 from report import generate_report
@@ -36,22 +33,38 @@ class AdminApp:
 
         self.clear_window()
         
-        tk.Label(self.root, text="Customer Orders", font=("Poppins", 16, "bold"), pady=10, bg="#FFC0CB", fg="black").pack()
+        tk.Label(self.root, text="Customer Orders", font=("Poppins", 18, "bold"), pady=10, bg="#FFC0CB", fg="black").pack()
+
+        # Scrollable frame setup
+        container = tk.Frame(self.root, bg="#FFC0CB")
+        container.pack(fill="both", expand=True, padx=10, pady=5)
+
+        canvas = tk.Canvas(container, bg="#FFC0CB", highlightthickness=0)
+        scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview, bd=0, highlightthickness=0)
+        scrollable_frame = tk.Frame(canvas, bg="#FFC0CB")
+
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
 
         # Table Headers
-        frame = tk.Frame(self.root, bg="#FFC0CB")
-        frame.pack()
-        
-        tk.Label(frame, text="Customer", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=0)
-        tk.Label(frame, text="Product", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=1)
-        tk.Label(frame, text="Quantity", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=2)
+        tk.Label(scrollable_frame, text="Customer", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=0)
+        tk.Label(scrollable_frame, text="Product", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=1)
+        tk.Label(scrollable_frame, text="Quantity", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=2)
 
         row_count = 1
         for customer, items in orders.items():
-            tk.Label(frame, text=customer, font=("Poppins", 11, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=0, sticky="w")
+            tk.Label(scrollable_frame, text=customer, font=("Poppins", 11, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=0, sticky="w")
             for product, qty in items.items():
-                tk.Label(frame, text=product, font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=1)
-                tk.Label(frame, text=str(qty), font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=2)
+                tk.Label(scrollable_frame, text=product, font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=1)
+                tk.Label(scrollable_frame, text=str(qty), font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=2)
                 row_count += 1
             row_count += 1
 
@@ -73,18 +86,6 @@ class AdminApp:
 
         tk.Label(self.root, text=f"Total Orders: {report_data['total_orders']}", font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
         tk.Label(self.root, text=f"Total Revenue: PHP {report_data['total_revenue']:.2f}", font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
-
-        frame = tk.Frame(self.root, bg="#FFC0CB")
-        frame.pack()
-        
-        tk.Label(frame, text="Product", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=0)
-        tk.Label(frame, text="Quantity Sold", font=("Poppins", 12, "bold"), padx=20, bg="#FFC0CB", fg="black").grid(row=0, column=1)
-
-        row_count = 1
-        for product, qty in report_data['product_sales'].items():
-            tk.Label(frame, text=product, font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=0)
-            tk.Label(frame, text=str(qty), font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=1)
-            row_count += 1
 
         tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.show_admin_menu, highlightthickness=0).pack(pady=10)
 
