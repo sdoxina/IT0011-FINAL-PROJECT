@@ -56,7 +56,7 @@ class CustomerApp:
             row_count += 1
 
         # Buttons
-        tk.Button(root, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white").grid(row=row_count, column=1, pady=10)
+        tk.Button(root, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout).grid(row=row_count, column=1, pady=10)
         tk.Button(root, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
 
     def toggle_quantity(self, product):
