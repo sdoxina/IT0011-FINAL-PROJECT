@@ -3,7 +3,6 @@ from datetime import datetime
 
 def generate_report(orders, products):
     report_date = datetime.now().strftime("%Y-%m-%d")
-    
     total_orders = 0
     total_revenue = 0
     product_sales = {}
