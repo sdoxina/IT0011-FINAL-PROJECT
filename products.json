@@ -52,5 +52,11 @@
         "price": 650.0,
         "stock": 11,
         "image": "./img/niaserum.png"
+    },
+    {
+        "name": "Oil Cleanser",
+        "price": 249.0,
+        "stock": 10,
+        "image": "./img/oilcleanser.png"
     }
 ]

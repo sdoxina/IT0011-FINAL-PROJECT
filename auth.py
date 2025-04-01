@@ -1,38 +1,60 @@
 import tkinter as tk
 from tkinter import messagebox
 
-class AdminAuth:
-    def __init__(self, root, success_callback):
+# Function to check admin credentials
+def validate_admin(username, password):
+    # Replace with real validation logic
+    valid_username = "admin"
+    valid_password = "admin123"
+    
+    if username == valid_username and password == valid_password:
+        return True
+    return False
+
+# AdminLoginApp to handle login
+class AdminLoginApp:
+    def __init__(self, root, on_success_callback, back_callback):
         self.root = root
-        self.success_callback = success_callback
+        self.on_success_callback = on_success_callback  # Callback to proceed to AdminApp
+        self.back_callback = back_callback  # Callback for the back button
+        
+        self.root.title("Admin Login")
+        self.root.geometry("400x400")
+        self.root.configure(bg="#FFC0CB")
+        
+        self.show_login_form()
+    
+    def show_login_form(self):
+        # Clear the window
+        for widget in self.root.winfo_children():
+            widget.destroy()
 
-        tk.Label(root, text="Admin Login", font=("Arial", 14)).grid(row=0, column=1, pady=10)
-        tk.Label(root, text="Username:").grid(row=1, column=0, padx=10)
-        tk.Label(root, text="Password:").grid(row=2, column=0, padx=10)
+        # Title label
+        tk.Label(self.root, text="Admin Login", font=("Poppins", 16, "bold"), bg="#FFC0CB").pack(pady=20)
 
-        self.username_entry = tk.Entry(root)
-        self.username_entry.grid(row=1, column=1)
+        # Username entry
+        tk.Label(self.root, text="Username", font=("Poppins", 12), bg="#FFC0CB").pack(pady=5)
+        self.username_entry = tk.Entry(self.root, font=("Poppins", 12))
+        self.username_entry.pack(pady=5)
 
-        self.password_entry = tk.Entry(root, show="*")
-        self.password_entry.grid(row=2, column=1)
+        # Password entry
+        tk.Label(self.root, text="Password", font=("Poppins", 12), bg="#FFC0CB").pack(pady=5)
+        self.password_entry = tk.Entry(self.root, font=("Poppins", 12), show="*")
+        self.password_entry.pack(pady=5)
 
-        tk.Button(root, text="Login", command=self.authenticate).grid(row=3, column=1, pady=10)
-        tk.Button(root, text="Back", command=self.go_back).grid(row=4, column=1, pady=10)
+        # Login button
+        login_button = tk.Button(self.root, text="Login", font=("Poppins", 12), command=self.login, bg="#FFFFFF", fg="#FF69B4")
+        login_button.pack(pady=20)
 
-    def authenticate(self):
+        # Back button
+        back_button = tk.Button(self.root, text="Back", font=("Poppins", 12), command=self.back_callback, bg="#f44336", fg="white")
+        back_button.pack(pady=10)  # Adds a padding between buttons
+
+    def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
 
-        if username == "admin" and password == "admin123":
-            messagebox.showinfo("Login Success", "Welcome, Admin!")
-            self.success_callback()
+        if validate_admin(username, password):
+            self.on_success_callback()  # Proceed to AdminApp if login is successful
         else:
-            messagebox.showerror("Login Failed", "Invalid credentials!")
-
-    def clear_window(self):
-        for widget in self.root.winfo_children():
-            widget.destroy()
-    def go_back(self):
-        self.clear_window()
-        from main import MainApp
-        MainApp(self.root).show_main_menu()  # Show the main menu again
+            messagebox.showerror("Login Failed", "Invalid username or password.")
