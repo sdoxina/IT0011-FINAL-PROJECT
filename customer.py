@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+from PIL import Image, ImageTk
 from data_handler import load_products, save_orders
 from receipt_generator import generate_receipt
 import random
@@ -22,17 +23,19 @@ class CustomerApp:
 
         # Headers
         tk.Label(root, text="Product", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=0, padx=10)
-        tk.Label(root, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
-        tk.Label(root, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
+        tk.Label(root, text="Image", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
+        tk.Label(root, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
+        tk.Label(root, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=3, padx=10)
 
         self.products = load_products()
+        self.images = {}
         self.cart = {}
         self.checkbuttons = {}
         self.quantities = {}
 
         row_count = 2
         for product in self.products:
-            name, price, stock = product["name"], product["price"], product["stock"]
+            name, price, stock, image_path = product["name"], product["price"], product["stock"], product["image"]
             var = tk.IntVar(value=0)
             self.checkbuttons[name] = var
 
@@ -40,18 +43,34 @@ class CustomerApp:
             check.grid(row=row_count, column=0, padx=10, sticky="w")
 
             price_label = tk.Label(root, text=f"PHP {price}", font=self.poppins_font, bg="#FFC0CB")
-            price_label.grid(row=row_count, column=1)
+            price_label.grid(row=row_count, column=2)
 
             qty_label = tk.Label(root, text="0", font=self.poppins_font, bg="#FFC0CB")
-            qty_label.grid(row=row_count, column=2)
+            qty_label.grid(row=row_count, column=3)
 
             minus_button = tk.Button(root, text="-", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
-            minus_button.grid(row=row_count, column=3)
+            minus_button.grid(row=row_count, column=4)
 
             plus_button = tk.Button(root, text="+", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
-            plus_button.grid(row=row_count, column=4)
+            plus_button.grid(row=row_count, column=5)
 
             self.quantities[name] = {"label": qty_label, "minus": minus_button, "plus": plus_button}
+
+            try:
+                image_path = product.get("image", "images/no_image.png")  # Use default if missing
+                img = Image.open(image_path)
+                img = img.resize((80, 80), Image.LANCZOS)
+                tk_img = ImageTk.PhotoImage(img)
+                self.images[name] = tk_img  # Prevent garbage collection
+
+                img_label = tk.Label(root, image=tk_img, bg="#FFC0CB")
+                img_label.grid(row=row_count, column=1, padx=10)
+
+            except Exception as e:
+                print(f"Error loading image {image_path}: {e}")
+                img_label = tk.Label(root, text="No Image", font=self.poppins_font, bg="#FFC0CB")
+                img_label.grid(row=row_count, column=1, padx=10)
+
 
             row_count += 1
 

@@ -2,51 +2,61 @@
     {
         "name": "Oil Cleanser",
         "price": 449.0,
-        "stock": 10
+        "stock": 10,
+        "image": "oilcleanser.webp"
     },
     {
         "name": "Foam Cleanser",
         "price": 525.0,
-        "stock": 30
+        "stock": 30,
+        "image": "no_image.png"
     },
     {
         "name": "Brightening Serum",
         "price": 800,
-        "stock": 5
+        "stock": 5,
+        "image": "no_image.png"
     },
     {
         "name": "Spots Serum",
         "price": 470,
-        "stock": 12
+        "stock": 12,
+        "image": "no_image.png"
     },
     {
         "name": "Moisturizer",
         "price": 290,
-        "stock": 15
+        "stock": 15,
+        "image": "no_image.png"
     },
     {
         "name": "Face Mask",
         "price": 160,
-        "stock": 20
+        "stock": 20,
+        "image": "no_image.png"
     },
     {
         "name": "Retinol",
         "price": 549,
-        "stock": 7
+        "stock": 7,
+        "image": "no_image.png"
     },
     {
         "name": "Toner",
         "price": 349,
-        "stock": 10
+        "stock": 10,
+        "image": "no_image.png"
     },
     {
         "name": "Face Mist",
         "price": 299.0,
-        "stock": 20
+        "stock": 20,
+        "image": "no_image.png"
     },
     {
         "name": "Niacinamide Serum",
         "price": 650.0,
-        "stock": 11
+        "stock": 11,
+        "image": "no_image.png"
     }
 ]
