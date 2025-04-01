@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog
-from data_handler import load_products, save_orders, load_orders
+from data_handler import load_products, save_orders
 from receipt_generator import generate_receipt
 import random
 import string
@@ -8,15 +8,22 @@ import string
 class CustomerApp:
     def __init__(self, root, back_callback):
         self.root = root
+        self.root.geometry("730x770")  # Set window size wider
         self.back_callback = lambda: self.go_back(back_callback)
 
         self.clear_window()
 
-        tk.Label(root, text="Available Skincare Products", font=("Arial", 14)).grid(row=0, column=1, pady=10)
+        # Set font
+        self.poppins_font = ("Poppins", 12)
+        self.poppins_bold = ("Poppins", 14, "bold")
+        
+        # Title Label
+        tk.Label(root, text="Available Skincare Products", font=("Poppins", 18, "bold"), fg="#4CAF50", bg="#FFC0CB").grid(row=0, column=1, pady=10)
 
-        tk.Label(root, text="Product", font=("Arial", 12, "bold")).grid(row=1, column=0, padx=10)
-        tk.Label(root, text="Price", font=("Arial", 12, "bold")).grid(row=1, column=1, padx=10)
-        tk.Label(root, text="Quantity", font=("Arial", 12, "bold")).grid(row=1, column=2, padx=10)
+        # Headers
+        tk.Label(root, text="Product", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=0, padx=10)
+        tk.Label(root, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
+        tk.Label(root, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
 
         self.products = load_products()
         self.cart = {}
@@ -29,30 +36,30 @@ class CustomerApp:
             var = tk.IntVar(value=0)
             self.checkbuttons[name] = var
 
-            check = tk.Checkbutton(root, text=name, variable=var, command=lambda p=name: self.toggle_quantity(p))
+            check = tk.Checkbutton(root, text=name, variable=var, font=self.poppins_font, bg="#FFC0CB", command=lambda p=name: self.toggle_quantity(p))
             check.grid(row=row_count, column=0, padx=10, sticky="w")
 
-            price_label = tk.Label(root, text=f"PHP {price}")
+            price_label = tk.Label(root, text=f"PHP {price}", font=self.poppins_font, bg="#FFC0CB")
             price_label.grid(row=row_count, column=1)
 
-            qty_label = tk.Label(root, text="0")
+            qty_label = tk.Label(root, text="0", font=self.poppins_font, bg="#FFC0CB")
             qty_label.grid(row=row_count, column=2)
 
-            minus_button = tk.Button(root, text="-", state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
+            minus_button = tk.Button(root, text="-", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
             minus_button.grid(row=row_count, column=3)
 
-            plus_button = tk.Button(root, text="+", state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
+            plus_button = tk.Button(root, text="+", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
             plus_button.grid(row=row_count, column=4)
 
             self.quantities[name] = {"label": qty_label, "minus": minus_button, "plus": plus_button}
 
             row_count += 1
 
-        tk.Button(root, text="Checkout", command=self.checkout).grid(row=row_count, column=1, pady=10)
-        tk.Button(root, text="Back", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
+        # Buttons
+        tk.Button(root, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white").grid(row=row_count, column=1, pady=10)
+        tk.Button(root, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
 
     def toggle_quantity(self, product):
-        """Enable/disable quantity and buttons when checkbox is toggled."""
         if self.checkbuttons[product].get():
             self.quantities[product]["label"].config(text="1")
             self.quantities[product]["minus"].config(state="normal")
@@ -89,7 +96,6 @@ class CustomerApp:
         save_orders(name, selected_items)
         
         receipt_no = ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-        
         receipt_file = generate_receipt(name, order_details, receipt_no)
         messagebox.showinfo("Order", f"Order placed successfully! Receipt saved as {receipt_file}")
 

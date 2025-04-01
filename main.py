@@ -1,13 +1,15 @@
 import tkinter as tk
+from PIL import Image, ImageTk  # Import for PNG support
 from customer import CustomerApp
 from admin import AdminApp
-from auth import AdminAuth
 
 class MainApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Skincare Management System")
-        self.root.geometry("600x400")
+        self.root.title("Blumee - Skincare Management System")
+        self.root.geometry("500x400")
+        self.root.configure(bg="#FFC0CB")  # Baby pink background
+
         self.show_main_menu()
 
     def clear_window(self):
@@ -15,18 +17,29 @@ class MainApp:
             widget.destroy()
 
     def show_main_menu(self):
-        tk.Label(self.root, text="Welcome to Skincare Store", font=("Arial", 14)).grid(row=0, column=1, pady=20)
-        tk.Button(self.root, text="Customer", command=self.show_customer, width=20, height=2).grid(row=1, column=1, pady=10)
-        tk.Button(self.root, text="Admin", command=self.show_admin_login, width=20, height=2).grid(row=2, column=1, pady=10)
-        tk.Button(self.root, text="Exit", command=self.root.quit, width=20, height=2).grid(row=3, column=1, pady=10)
+        self.clear_window()
+
+        # Load and display the logo
+        try:
+            logo_image = Image.open("./img/blumeelogo1.png")  # Ensure the file is in the same directory
+            logo_image = logo_image.resize((200, 100), Image.LANCZOS)  # Resize if needed
+            self.logo = ImageTk.PhotoImage(logo_image)  # Keep a reference (avoid garbage collection)
+            
+            logo_label = tk.Label(self.root, image=self.logo, bg="#FFC0CB")
+            logo_label.pack(pady=20)
+        except Exception as e:
+            print(f"Error loading logo: {e}")  # Debugging in case of errors
+
+        # Button styling
+        button_style = {"font": ("Poppins", 12), "width": 20, "height": 2, "bg": "#FFFFFF", "fg": "#FF69B4", "bd": 3}
+
+        tk.Button(self.root, text="Customer", command=self.show_customer, **button_style).pack(pady=10)
+        tk.Button(self.root, text="Admin", command=self.show_admin, **button_style).pack(pady=10)
+        tk.Button(self.root, text="Exit", command=self.root.quit, **button_style).pack(pady=10)
 
     def show_customer(self):
         self.clear_window()
         CustomerApp(self.root, self.show_main_menu)
-
-    def show_admin_login(self):
-        self.clear_window()
-        AdminAuth(self.root, self.show_admin)
 
     def show_admin(self):
         self.clear_window()

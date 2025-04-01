@@ -5,6 +5,7 @@ from data_handler import load_products, save_products
 class ManageProductsApp:
     def __init__(self, root, back_callback):
         self.root = root
+        self.root.geometry("580x720")  # Set window size wider
         self.back_callback = back_callback
         self.clear_window()
         self.show_product_management()
@@ -12,11 +13,11 @@ class ManageProductsApp:
     def show_product_management(self):
         """Display all products and allow inline editing when Edit is clicked."""
         self.clear_window()
-        tk.Label(self.root, text="Manage Products", font=("Arial", 14, "bold")).grid(row=0, column=1, pady=10)
+        tk.Label(self.root, text="Manage Products", font=("Poppins", 14, "bold")).grid(row=0, column=1, pady=10)
 
-        tk.Label(self.root, text="Name", font=("Arial", 12, "bold")).grid(row=1, column=0, padx=10)
-        tk.Label(self.root, text="Price", font=("Arial", 12, "bold")).grid(row=1, column=1, padx=10)
-        tk.Label(self.root, text="Stock", font=("Arial", 12, "bold")).grid(row=1, column=2, padx=10)
+        tk.Label(self.root, text="Name", font=("Poppins", 12, "bold")).grid(row=1, column=0, padx=10)
+        tk.Label(self.root, text="Price", font=("Poppins", 12, "bold")).grid(row=1, column=1, padx=10)
+        tk.Label(self.root, text="Stock", font=("Poppins", 12, "bold")).grid(row=1, column=2, padx=10)
 
         self.products = load_products()
         self.product_widgets = {}  
@@ -26,26 +27,26 @@ class ManageProductsApp:
             self.display_product(product, row_count)
             row_count += 1
 
-        tk.Button(self.root, text="Add Product", command=lambda: self.add_product(row_count)).grid(row=row_count, column=1, pady=10)
-        tk.Button(self.root, text="Back", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
+        tk.Button(self.root, text="Add Product", command=lambda: self.add_product(row_count), font=("Poppins", 12)).grid(row=row_count, column=1, pady=10)
+        tk.Button(self.root, text="Back", command=self.back_callback, font=("Poppins", 12)).grid(row=row_count + 1, column=1, pady=10)
 
     def display_product(self, product, row):
         """Displays a product row with labels, entry fields, and buttons."""
         name, price, stock = product["name"], product["price"], product["stock"]
 
         # Labels
-        name_label = tk.Label(self.root, text=name)
-        price_label = tk.Label(self.root, text=f"PHP {price}")
-        stock_label = tk.Label(self.root, text=str(stock))
+        name_label = tk.Label(self.root, text=name, font=("Poppins", 12))
+        price_label = tk.Label(self.root, text=f"PHP {price}", font=("Poppins", 12))
+        stock_label = tk.Label(self.root, text=str(stock), font=("Poppins", 12))
 
         name_label.grid(row=row, column=0, padx=10)
         price_label.grid(row=row, column=1)
         stock_label.grid(row=row, column=2)
 
-        # Entry fields (hidden initially)
-        price_entry = tk.Entry(self.root, width=10)
+        # Entry fields (hidden initially) - no highlight or border
+        price_entry = tk.Entry(self.root, width=15, font=("Poppins", 12), highlightthickness=0, bd=0, highlightbackground="#FFC0CB", highlightcolor="#FFC0CB", background=self.root.cget("background"))
         price_entry.insert(0, str(price))
-        stock_entry = tk.Entry(self.root, width=10)
+        stock_entry = tk.Entry(self.root, width=15, font=("Poppins", 12), highlightthickness=0, bd=0, highlightbackground="#FFC0CB", highlightcolor="#FFC0CB", background=self.root.cget("background"))
         stock_entry.insert(0, str(stock))
 
         price_entry.grid(row=row, column=1)
@@ -55,10 +56,10 @@ class ManageProductsApp:
         stock_entry.grid_remove()
 
         # Buttons
-        edit_btn = tk.Button(self.root, text="Edit", command=lambda: self.toggle_edit(product, price_entry, stock_entry, price_label, stock_label, edit_btn, save_btn, cancel_btn))
-        save_btn = tk.Button(self.root, text="Save", command=lambda: self.save_changes(product, price_entry, stock_entry, price_label, stock_label, edit_btn, save_btn, cancel_btn))
-        cancel_btn = tk.Button(self.root, text="Cancel", command=lambda: self.cancel_edit(product, price_entry, stock_entry, price_label, stock_label, edit_btn, save_btn, cancel_btn))
-        del_btn = tk.Button(self.root, text="Delete", command=lambda: self.delete_product(product))
+        edit_btn = tk.Button(self.root, text="Edit", command=lambda: self.toggle_edit(product, price_entry, stock_entry, price_label, stock_label, edit_btn, save_btn, cancel_btn), font=("Poppins", 12))
+        save_btn = tk.Button(self.root, text="Save", command=lambda: self.save_changes(product, price_entry, stock_entry, price_label, stock_label, edit_btn, save_btn, cancel_btn), font=("Poppins", 12))
+        cancel_btn = tk.Button(self.root, text="Cancel", command=lambda: self.cancel_edit(product, price_entry, stock_entry, price_label, stock_label, edit_btn, save_btn, cancel_btn), font=("Poppins", 12))
+        del_btn = tk.Button(self.root, text="Delete", command=lambda: self.delete_product(product), font=("Poppins", 12))
 
         edit_btn.grid(row=row, column=3, padx=5)
         save_btn.grid(row=row, column=4, padx=5)
@@ -140,9 +141,9 @@ class ManageProductsApp:
         self.products.append(new_product)
 
         # Entry fields for new product
-        name_entry = tk.Entry(self.root, width=15)
-        price_entry = tk.Entry(self.root, width=10)
-        stock_entry = tk.Entry(self.root, width=10)
+        name_entry = tk.Entry(self.root, width=15, font=("Poppins", 12), highlightthickness=0, bd=0)
+        price_entry = tk.Entry(self.root, width=15, font=("Poppins", 12), highlightthickness=0, bd=0)
+        stock_entry = tk.Entry(self.root, width=15, font=("Poppins", 12), highlightthickness=0, bd=0)
 
         name_entry.insert(0, "New Product")
         price_entry.insert(0, "0.0")
@@ -153,8 +154,8 @@ class ManageProductsApp:
         stock_entry.grid(row=row, column=2)
 
         # Save and Cancel buttons
-        save_btn = tk.Button(self.root, text="Save", command=lambda: self.save_new_product(name_entry, price_entry, stock_entry, save_btn, cancel_btn, row))
-        cancel_btn = tk.Button(self.root, text="Cancel", command=lambda: self.cancel_new_product(name_entry, price_entry, stock_entry, save_btn, cancel_btn))
+        save_btn = tk.Button(self.root, text="Save", command=lambda: self.save_new_product(name_entry, price_entry, stock_entry, save_btn, cancel_btn, row), font=("Poppins", 12))
+        cancel_btn = tk.Button(self.root, text="Cancel", command=lambda: self.cancel_new_product(name_entry, price_entry, stock_entry, save_btn, cancel_btn), font=("Poppins", 12))
 
         save_btn.grid(row=row, column=3, padx=5)
         cancel_btn.grid(row=row, column=4, padx=5)
