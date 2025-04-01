@@ -81,7 +81,7 @@ class AdminApp:
         report_data = generate_report(orders, products)
 
         self.clear_window()
-        
+
         tk.Label(self.root, text=f"Daily Sales Report - {report_data['date']}", font=("Poppins", 16, "bold"), pady=10, bg="#FFC0CB", fg="black").pack()
 
         tk.Label(self.root, text=f"Total Orders: {report_data['total_orders']}", font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
