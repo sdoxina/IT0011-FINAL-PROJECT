@@ -1,3 +1,5 @@
+# admin.py
+
 import tkinter as tk
 from tkinter import messagebox
 from data_handler import load_products, load_orders
