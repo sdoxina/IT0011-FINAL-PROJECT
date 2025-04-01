@@ -20,15 +20,30 @@ class MainApp:
         self.clear_window()
 
         # Load and display the logo
-        try:
-            logo_image = Image.open("./img/blumeelogo1.png")  # Ensure the file is in the same directory
-            logo_image = logo_image.resize((200, 100), Image.LANCZOS)  # Resize if needed
-            self.logo = ImageTk.PhotoImage(logo_image)  # Keep a reference (avoid garbage collection)
+        # try:
+        #     logo_image = Image.open('soulspeakFavicon.png')
+        #     print(logo_image.format)
+        #     print(logo_image.size)
+        #     print(logo_image.mode)
+        #     logo_image.show()  # Ensure the file is in the same directory
+        #     # logo_image = logo_image.resize((200, 100), Image.LANCZOS)  # Resize if needed
+        #     # self.logo = ImageTk.PhotoImage(logo_image)  # Keep a reference (avoid garbage collection)
             
-            logo_label = tk.Label(self.root, image=self.logo, bg="#FFC0CB")
-            logo_label.pack(pady=20)
+        #     logo_label = tk.Label(self.root, image=self.logo, bg="#FFC0CB")
+        #     logo_label.pack(pady=20)
+        # except Exception as e:
+        #     print(f"Error loading logo: {e}")  # Debugging in case of errors
+
+        try:  # Ensure 'pet' dictionary is properly defined
+                pil_image = Image.open('soulspeakFavicon.png').resize((100, 100), Image.LANCZOS)
+                image = ImageTk.PhotoImage(pil_image)
+                logo_label = tk.Label(image=image, bg="#FFFFFF")
+                logo_label.image = image  # Keep a reference
+                logo_label.pack()
         except Exception as e:
-            print(f"Error loading logo: {e}")  # Debugging in case of errors
+            print(f"Error loading image: {e}")
+            error_label = tk.Label(text="Error Displaying Image", font=("Century Gothic", 10), bg="#FFFFFF", fg="#2B2C41")
+            error_label.pack()
 
         # Button styling
         button_style = {"font": ("Poppins", 12), "width": 20, "height": 2, "bg": "#FFFFFF", "fg": "#FF69B4", "bd": 3}
