@@ -81,13 +81,38 @@ class AdminApp:
         report_data = generate_report(orders, products)
 
         self.clear_window()
+
+        tk.Label(self.root, text=f"Daily Sales Report - {report_data['date']}", 
+                font=("Poppins", 16, "bold"), pady=10, bg="#FFC0CB", fg="black").pack()
+
+        tk.Label(self.root, text=f"Total Orders: {report_data['total_orders']}", 
+                font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
         
-        tk.Label(self.root, text=f"Daily Sales Report - {report_data['date']}", font=("Poppins", 16, "bold"), pady=10, bg="#FFC0CB", fg="black").pack()
+        tk.Label(self.root, text=f"Total Revenue: PHP {report_data['total_revenue']:.2f}", 
+                font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
 
-        tk.Label(self.root, text=f"Total Orders: {report_data['total_orders']}", font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
-        tk.Label(self.root, text=f"Total Revenue: PHP {report_data['total_revenue']:.2f}", font=("Poppins", 12), bg="#FFC0CB", fg="black").pack()
+        # Frame for the product breakdown table
+        table_frame = tk.Frame(self.root, bg="#FFC0CB")
+        table_frame.pack(pady=10)
 
-        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.show_admin_menu, highlightthickness=0).pack(pady=10)
+        # Column Headers
+        tk.Label(table_frame, text="Product Name", font=("Poppins", 12, "bold"), 
+                bg="#FFC0CB", fg="black", padx=10).grid(row=0, column=0)
+        tk.Label(table_frame, text="Quantity Sold", font=("Poppins", 12, "bold"), 
+                bg="#FFC0CB", fg="black", padx=10).grid(row=0, column=1)
+        tk.Label(table_frame, text="Total Sales (PHP)", font=("Poppins", 12, "bold"), 
+                bg="#FFC0CB", fg="black", padx=10).grid(row=0, column=2)
+
+        # Product breakdown
+        for idx, (product, details) in enumerate(report_data["product_sales"].items(), start=1):
+            tk.Label(table_frame, text=product, font=("Poppins", 12), bg="#FFC0CB", fg="black").grid(row=idx, column=0, padx=10)
+            tk.Label(table_frame, text=details["quantity_sold"], font=("Poppins", 12), bg="#FFC0CB", fg="black").grid(row=idx, column=1, padx=10)
+            tk.Label(table_frame, text=f"PHP {details['total_sales']:.2f}", font=("Poppins", 12), bg="#FFC0CB", fg="black").grid(row=idx, column=2, padx=10)
+
+        # Back button
+        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", 
+                fg="black", command=self.show_admin_menu, highlightthickness=0).pack(pady=10)
+
 
     def manage_products(self):
         self.root.configure(bg="#FFC0CB")  # Ensure background color consistency
