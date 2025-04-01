@@ -20,10 +20,10 @@ class AdminApp:
         tk.Label(self.root, text="Admin Panel", font=("Poppins", 16, "bold"), pady=10, bg="#FFC0CB", fg="black").pack(fill='x', pady=10)
         
         # Buttons
-        tk.Button(self.root, text="View Orders", font=("Poppins", 12), bg="white", fg="black", command=self.view_orders).pack(pady=5)
-        tk.Button(self.root, text="Manage Products", font=("Poppins", 12), bg="white", fg="black", command=self.manage_products).pack(pady=5)
-        tk.Button(self.root, text="Generate Report", font=("Poppins", 12), bg="white", fg="black", command=self.generate_report).pack(pady=5)
-        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.back_callback).pack(pady=10)
+        tk.Button(self.root, text="View Orders", font=("Poppins", 12), bg="white", fg="black", command=self.view_orders, highlightthickness=0).pack(pady=5)
+        tk.Button(self.root, text="Manage Products", font=("Poppins", 12), bg="white", fg="black", command=self.manage_products, highlightthickness=0).pack(pady=5)
+        tk.Button(self.root, text="Generate Report", font=("Poppins", 12), bg="white", fg="black", command=self.generate_report, highlightthickness=0).pack(pady=5)
+        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.back_callback, highlightthickness=0).pack(pady=10)
 
     def view_orders(self):
         orders = load_orders()
@@ -52,7 +52,7 @@ class AdminApp:
                 row_count += 1
             row_count += 1
 
-        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.show_admin_menu).pack(pady=10)
+        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.show_admin_menu, highlightthickness=0).pack(pady=10)
 
     def generate_report(self):
         orders = load_orders()
@@ -83,9 +83,10 @@ class AdminApp:
             tk.Label(frame, text=str(qty), font=("Poppins", 11), padx=20, bg="#FFC0CB", fg="black").grid(row=row_count, column=1)
             row_count += 1
 
-        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.show_admin_menu).pack(pady=10)
+        tk.Button(self.root, text="Back", font=("Poppins", 12), bg="white", fg="black", command=self.show_admin_menu, highlightthickness=0).pack(pady=10)
 
     def manage_products(self):
+        self.root.configure(bg="#FFC0CB")  # Ensure background color consistency
         ManageProductsApp(self.root, self.show_admin_menu)
 
     def go_back(self, back_callback):
