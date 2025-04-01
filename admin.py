@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 from data_handler import load_products, load_orders
 from manage_products import ManageProductsApp
 from report import generate_report

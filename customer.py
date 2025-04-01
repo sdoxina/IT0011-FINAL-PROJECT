@@ -9,23 +9,35 @@ import string
 class CustomerApp:
     def __init__(self, root, back_callback):
         self.root = root
-        self.root.geometry("730x770")  # Set window size wider
+        self.root.geometry("730x770")  # Set window size
         self.back_callback = lambda: self.go_back(back_callback)
 
         self.clear_window()
 
+        # Scrollable Frame Setup
+        self.canvas = tk.Canvas(root, bg="#FFC0CB")
+        self.scroll_frame = tk.Frame(self.canvas, bg="#FFC0CB")
+        self.scrollbar = tk.Scrollbar(root, orient="vertical", command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+
+        self.scrollbar.pack(side="right", fill="y")
+        self.canvas.pack(side="left", fill="both", expand=True)
+        self.canvas.create_window((0, 0), window=self.scroll_frame, anchor="nw")
+
+        self.scroll_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
+
         # Set font
         self.poppins_font = ("Poppins", 12)
         self.poppins_bold = ("Poppins", 14, "bold")
-        
+
         # Title Label
-        tk.Label(root, text="Available Skincare Products", font=("Poppins", 18, "bold"), fg="#4CAF50", bg="#FFC0CB").grid(row=0, column=1, pady=10)
+        tk.Label(self.scroll_frame, text="Available Skincare Products", font=("Poppins", 18, "bold"), fg="#4CAF50", bg="#FFC0CB").grid(row=0, column=1, pady=10)
 
         # Headers
-        tk.Label(root, text="Product", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=0, padx=10)
-        tk.Label(root, text="Image", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
-        tk.Label(root, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
-        tk.Label(root, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=3, padx=10)
+        tk.Label(self.scroll_frame, text="Product", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=0, padx=10)
+        tk.Label(self.scroll_frame, text="Image", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=1, padx=10)
+        tk.Label(self.scroll_frame, text="Price", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=2, padx=10)
+        tk.Label(self.scroll_frame, text="Quantity", font=self.poppins_bold, bg="#FFC0CB").grid(row=1, column=3, padx=10)
 
         self.products = load_products()
         self.images = {}
@@ -39,19 +51,19 @@ class CustomerApp:
             var = tk.IntVar(value=0)
             self.checkbuttons[name] = var
 
-            check = tk.Checkbutton(root, text=name, variable=var, font=self.poppins_font, bg="#FFC0CB", command=lambda p=name: self.toggle_quantity(p))
+            check = tk.Checkbutton(self.scroll_frame, text=name, variable=var, font=self.poppins_font, bg="#FFC0CB", command=lambda p=name: self.toggle_quantity(p))
             check.grid(row=row_count, column=0, padx=10, sticky="w")
 
-            price_label = tk.Label(root, text=f"PHP {price}", font=self.poppins_font, bg="#FFC0CB")
+            price_label = tk.Label(self.scroll_frame, text=f"PHP {price}", font=self.poppins_font, bg="#FFC0CB")
             price_label.grid(row=row_count, column=2)
 
-            qty_label = tk.Label(root, text="0", font=self.poppins_font, bg="#FFC0CB")
+            qty_label = tk.Label(self.scroll_frame, text="0", font=self.poppins_font, bg="#FFC0CB")
             qty_label.grid(row=row_count, column=3)
 
-            minus_button = tk.Button(root, text="-", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
+            minus_button = tk.Button(self.scroll_frame, text="-", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, -1))
             minus_button.grid(row=row_count, column=4)
 
-            plus_button = tk.Button(root, text="+", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
+            plus_button = tk.Button(self.scroll_frame, text="+", font=self.poppins_font, state="disabled", command=lambda p=name, l=qty_label: self.adjust_quantity(p, l, 1))
             plus_button.grid(row=row_count, column=5)
 
             self.quantities[name] = {"label": qty_label, "minus": minus_button, "plus": plus_button}
@@ -63,20 +75,19 @@ class CustomerApp:
                 tk_img = ImageTk.PhotoImage(img)
                 self.images[name] = tk_img  # Prevent garbage collection
 
-                img_label = tk.Label(root, image=tk_img, bg="#FFC0CB")
+                img_label = tk.Label(self.scroll_frame, image=tk_img, bg="#FFC0CB")
                 img_label.grid(row=row_count, column=1, padx=10)
 
             except Exception as e:
                 print(f"Error loading image {image_path}: {e}")
-                img_label = tk.Label(root, text="No Image", font=self.poppins_font, bg="#FFC0CB")
+                img_label = tk.Label(self.scroll_frame, text="No Image", font=self.poppins_font, bg="#FFC0CB")
                 img_label.grid(row=row_count, column=1, padx=10)
-
 
             row_count += 1
 
         # Buttons
-        tk.Button(root, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout).grid(row=row_count, column=1, pady=10)
-        tk.Button(root, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).grid(row=row_count + 1, column=1, pady=10)
+        tk.Button(self.scroll_frame, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout).grid(row=row_count, column=1, pady=10)
+        tk.Button(self.scroll_frame, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).grid(row=row_count, column=2, pady=10)
 
     def toggle_quantity(self, product):
         if self.checkbuttons[product].get():
