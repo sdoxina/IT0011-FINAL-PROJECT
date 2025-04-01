@@ -9,7 +9,7 @@ import string
 class CustomerApp:
     def __init__(self, root, back_callback):
         self.root = root
-        self.root.geometry("1220x800")  # Set window size
+        self.root.geometry("850x800")  # Set window size
         self.back_callback = lambda: self.go_back(back_callback)
 
         self.clear_window()
@@ -86,11 +86,26 @@ class CustomerApp:
 
             row_count += 1
 
-        # Centering Checkout and Back buttons
+
+# Centering Checkout and Back buttons
         button_frame = tk.Frame(self.scroll_frame, bg="#FFC0CB")
-        button_frame.grid(row=row_count, column=1, pady=10, sticky="nsew")
-        tk.Button(button_frame, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout).pack(side="left", padx=10)
-        tk.Button(button_frame, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback).pack(side="right", padx=10)
+        button_frame.grid(row=row_count, column=1, columnspan=3, pady=10, sticky="nsew")
+
+# Configure columns to allow spacing
+        button_frame.grid_columnconfigure(0, weight=1)  # Left side (Back button)
+        button_frame.grid_columnconfigure(1, weight=2)  # Spacer
+        button_frame.grid_columnconfigure(2, weight=1)  # Right side (Checkout button)
+
+# Back Button (Left)
+        back_button = tk.Button(button_frame, text="Back", font=self.poppins_font, bg="#f44336", fg="white", command=self.back_callback)
+        back_button.grid(row=0, column=0, padx=20, sticky="ew")
+
+# Checkout Button (Right)
+        checkout_button = tk.Button(button_frame, text="Checkout", font=self.poppins_font, bg="#4CAF50", fg="white", command=self.checkout)
+        checkout_button.grid(row=0, column=2, padx=20, sticky="ew")
+# Expand button horizontally
+
+
 
     def toggle_quantity(self, product):
         if self.checkbuttons[product].get():

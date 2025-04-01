@@ -1,11 +1,5 @@
 [
     {
-        "name": "Oil Cleanser",
-        "price": 449.0,
-        "stock": 10,
-        "image": "./img/oilcleanser.png"
-    },
-    {
         "name": "Foam Cleanser",
         "price": 525.0,
         "stock": 30,
