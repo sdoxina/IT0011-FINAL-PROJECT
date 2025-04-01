@@ -6,9 +6,15 @@ ORDERS_FILE = "orders.json"
 def load_products():
     try:
         with open(PRODUCTS_FILE, "r") as file:
-            return json.load(file)
+            products = json.load(file)
+            # Ensure each product has an 'image' key
+            for product in products:
+                if "image" not in product:
+                    product["image"] = None  # Default if no image
+            return products
     except (FileNotFoundError, json.JSONDecodeError):
         return []
+
 
 def save_products(products):
     with open(PRODUCTS_FILE, "w") as file:
