@@ -28,6 +28,9 @@ class MainApp:
         except Exception as e:
             print(f"Error loading logo: {e}")  # Debugging in case of errors
 
+        # Add a welcome label below the logo
+        welcome_label = tk.Label(self.root, text="Welcome to Blumee!", font=("Poppins", 20, "bold"), bg="#FFC0CB", fg="#FF69B4")
+        welcome_label.pack(pady=10)
 
         # Button styling
         button_style = {"font": ("Poppins", 12), "width": 20, "height": 2, "bg": "#FFFFFF", "fg": "#FF69B4", "bd": 3}
